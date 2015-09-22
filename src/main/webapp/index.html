@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html ng-app="guiaAngular">
+    <head>
+
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular-route.min.js"></script>-->
+        <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular-resource.min.js"></script>-->
+        <script src="resources/angularjs/angular.min.js"></script>
+        <!--<script src="resources/angularjs/app.js" ></script>-->
+        <!--<script src="resources/angularjs/controller.js"></script>-->        
+        
+        
+        <script>
+            angular.module("guiaAngular", []);                                    
+            
+            angular.module("guiaAngular").controller("guiaAngularCtrl", function ($scope, $http){                                
+                
+                
+                $scope.salvar = function (diretiva) {
+                    $http.post("services/diretiva/salvar", diretiva);
+                }
+                                                                
+            });
+                
+        </script>
+        
+
+        <title>Cadastro de Diretiva</title>
+    </head>
+    <body ng-controller="guiaAngularCtrl">
+        <form>
+
+            <h3 name="menssagem" ng-bind='message' ng-required='false'></h3>
+
+            <label>Diretiva:</label>
+            <input type="text" name="diretiva" ng-model="diretiva.diretiva" placeholder="Diretiva" ng-required="true" />
+            <label>Descrição:</label>
+            <input type="text" name="descricao" ng-model="diretiva.descricao" placeholder="Descrição" ng-required="true" />
+            <label>Exemplo:</label>
+            <input type="text" name="exemplo" ng-model="diretiva.exemplo" placeholder="Exemplo" ng-required="true" />
+            {{diretiva}}
+            
+            <button ng-click="salvar(diretiva)">Salvar </button>
+
+        </form>
+
+
+
+    </body>
+</html>
