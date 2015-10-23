@@ -2,6 +2,24 @@
 <html ng-app="guiaAngular">
     <head>
 
+        <title>Início</title>
+        <link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="resources/mdl/material.min.css">
+        <link rel="stylesheet" href="resources/mdl/styles.css">        
+        <style>
+            #view-source {
+                position: fixed;
+                display: block;
+                right: 0;
+                bottom: 0;
+                margin-right: 40px;
+                margin-bottom: 40px;
+                z-index: 900;
+            }
+        </style>        
+        <script src="resources/mdl/material.min.js"></script>
+
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
         <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular-route.min.js"></script>-->
@@ -9,43 +27,108 @@
         <script src="resources/angularjs/angular.min.js"></script>
         <!--<script src="resources/angularjs/app.js" ></script>-->
         <!--<script src="resources/angularjs/controller.js"></script>-->        
-        
-        
+
+
         <script>
-            angular.module("guiaAngular", []);                                    
-            
-            angular.module("guiaAngular").controller("guiaAngularCtrl", function ($scope, $http){                                
+            angular.module("guiaAngular", []);
+
+            angular.module("guiaAngular").controller("guiaAngularCtrl", function ($scope, $http) {
+
+
+                
+                $scope.dados = [];
                 
                 
                 $scope.salvar = function (diretiva) {
                     $http.post("services/diretiva/salvar", diretiva);
-                }
-                                                                
-            });
+                };
+                                
+                                
+                var diretivas = function () {
+                    
+                    $http.get("services/diretiva/todas").success(function (resp) {                        
+                        $scope.dados = resp;
+                        console.log($scope.dados);
+                    });
+                    
+                    
+                };
                 
+                diretivas();
+                console.log('Aqui -->>> ', $scope.dados);
+                
+                
+
+            });
+
         </script>
-        
 
-        <title>Cadastro de Diretiva</title>
     </head>
-    <body ng-controller="guiaAngularCtrl">
-        <form>
+    <body ng-controller="guiaAngularCtrl" class="mdl-demo mdl-color--grey-100 mdl-color-text--grey-700 mdl-base">
+        <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+            <header class="mdl-layout__header mdl-layout__header--scroll mdl-color--primary">
+                <div class="mdl-layout--large-screen-only mdl-layout__header-row">
+                </div>
+                <div class="mdl-layout--large-screen-only mdl-layout__header-row">
+                    <h3>Name &amp; Title</h3>
+                </div>
+                <div class="mdl-layout--large-screen-only mdl-layout__header-row">
+                </div>
+                <div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--primary-dark">
+                    <a href="#overview" class="mdl-layout__tab is-active">Overview</a>
+                    <a href="#features" class="mdl-layout__tab">Features</a>
+                    <a href="#features" class="mdl-layout__tab">Details</a>
+                    <a href="#features" class="mdl-layout__tab">Technology</a>
+                    <a href="#features" class="mdl-layout__tab">FAQ</a>
+                    <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--4dp mdl-color--accent" id="add">
+                        <i class="material-icons" role="presentation">add</i>
+                        <span class="visuallyhidden">Add</span>
+                    </button>
+                </div>
+            </header>
 
-            <h3 name="menssagem" ng-bind='message' ng-required='false'></h3>
+            <main class="mdl-layout__content">
+                <div class="mdl-layout__tab-panel is-active" id="overview">
+                    <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
 
-            <label>Diretiva:</label>
-            <input type="text" name="diretiva" ng-model="diretiva.diretiva" placeholder="Diretiva" ng-required="true" />
-            <label>Descrição:</label>
-            <input type="text" name="descricao" ng-model="diretiva.descricao" placeholder="Descrição" ng-required="true" />
-            <label>Exemplo:</label>
-            <input type="text" name="exemplo" ng-model="diretiva.exemplo" placeholder="Exemplo" ng-required="true" />
-            {{diretiva}}
-            
-            <button ng-click="salvar(diretiva)">Salvar </button>
-
-        </form>
+                        <div class="mdl-card__supporting-text">
+                            <h4>Cadastro de Diretivas</h4>
+                            <h3 name="menssagem" ng-bind='message' ng-required='false'></h3>
+                            <form>
 
 
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
+                                    <input type="text" name="diretiva" ng-model="diretiva.diretiva" class="mdl-textfield__input" ng-required="true" />
+                                    <label class="mdl-textfield__label">Diretiva</label>
+                                </div>
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
+                                    <label class="mdl-textfield__label">Descrição</label>
+                                    <input type="text" name="descricao" ng-model="diretiva.descricao" class="mdl-textfield__input" ng-required="true" />
+                                </div>
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
+                                    <label class="mdl-textfield__label">Exemplo</label>
+                                    <input type="text" name="exemplo" ng-model="diretiva.exemplo" class="mdl-textfield__input" ng-required="true" />
+                                </div>
+                                {{diretiva}}
 
+                                <button class="mdl-button mdl-js-button mdl-js-ripple-effect" ng-click="salvar(diretiva)">Salvar </button>
+
+                            </form>
+                        </div>
+
+                    </section>
+                </div>
+
+                <footer class="mdl-mini-footer">
+                    <div class="mdl-mini-footer__left-section">
+                        <div class="mdl-logo">Title</div>
+                        <ul class="mdl-mini-footer__link-list">
+                            <li><a href="#">Help</a></li>
+                            <li><a href="#">Privacy & Terms</a></li>
+                        </ul>
+                    </div>
+                </footer>
+            </main>
+        </div>
     </body>
 </html>
